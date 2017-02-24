@@ -23,11 +23,14 @@
            var div = document.getElementById("response");
            location.hash = "#response";
            div.innerHTML = "<h3>Estou processando seu pedido...</h3>";
-           $.getJSON('https://tatranquilo-g4mbler.c9users.io/?url='+btoa(url), function(data){
+           $.getJSON('http://localhost:8000/?url='+btoa(url), function(data){
              div.innerHTML = '';
-             var text = 'Essa URL response para o dominio '+data.dominio.dominio+', o registro dele foi realizado '+data.dominio.criado_em_h;
+             var text = 'Essa URL responde para o dominio '+data.dominio.dominio+', o registro dele foi realizado '+data.dominio.criado_em_h;
              if(data.vulnerabilidade){
                  div.innerHTML += '<font color="red"><h3>ATENÇÃO!<br> De acordo com nossas analises esse site pode estar tentando explorar alguma vulnerabilidade no seu navegador.</h3></font>';
+             }
+             if(data.scanurl){
+                 div.innerHTML += '<font color="red"><h3>ATENÇÃO!<br> De acordo com o site <a href="http://scanurl.net" targe="_blank">ScanURL</a> esta url é maliciosa e não deve ser acessado.</h3></font>';
              }
              if(data.seguranca.status == 'Safe'){
                div.innerHTML += '<h3><font color="green">De acordo com o <a href="https://global.sitesafety.trendmicro.com/index.php" target="_blank">Globa SiteSafety</a> esta URL é segura.</font></h3>'

@@ -14,7 +14,7 @@ class whoyouare:
             print(w['domain_name'])
             response['dominio'] = w['domain_name'][0] if type(w['domain_name']) is list else w['domain_name']
             created =  w['creation_date'][0] if type(w['creation_date']) is list else w['creation_date']
-            response['criado_em_h'] = arrow.get(created).humanize()
+            response['criado_em_h'] = arrow.get(created).humanize(locale='pt')
             response['criado_em'] = created.strftime('%d/%m/%Y')
             response['registrado_para'] = w['registrar']
             response['dadosEmpresa'] = False

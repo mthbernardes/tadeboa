@@ -1,12 +1,16 @@
+import requests
 from pprint import pprint
 from urllib.parse import urlparse
 from plugins.whoyouare import whoyouare
 from plugins.globalsitesafety import globalsitesafety
 from plugins.exploitation import exploitation
 from plugins.tiraprint import tiraprint
+from plugins.scanurl import scanurl
 
 class urla:
     def consult(self,url):
+        r = requests.head(url,allow_redirects=True)
+        url = r.url
         parsed = urlparse(url)
         response = dict()
         infos = dict()
@@ -14,7 +18,7 @@ class urla:
         infos['domain'] = parsed.hostname
         infos['parameters'] = parsed.query
         infos['path'] = parsed.path
-        
+
         #Coleta dados sobre o dominio
         w = whoyouare()
         response['dominio'] = w.consult(infos['domain'])
@@ -31,5 +35,8 @@ class urla:
         t = tiraprint()
         response['print'] = t.save(url)
 
+        #Coleta infos no scanurl
+        su = scanurl()
+        response['scanurl'] = su.consult(url)
 
         return response
