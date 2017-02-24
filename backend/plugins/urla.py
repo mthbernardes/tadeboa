@@ -1,3 +1,4 @@
+import re
 import requests
 from pprint import pprint
 from urllib.parse import urlparse
@@ -9,8 +10,13 @@ from plugins.scanurl import scanurl
 
 class urla:
     def consult(self,url):
-        r = requests.head(url,allow_redirects=True)
-        url = r.url
+        if not (re.match('^https?:\/\/', url)):
+            url = 'http://'+url
+        try:
+            r = requests.head(url,allow_redirects=True)
+            url = r.url
+        except:
+            pass
         parsed = urlparse(url)
         response = dict()
         infos = dict()

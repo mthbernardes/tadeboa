@@ -11,23 +11,24 @@ class whoyouare:
         w = whois.whois(domain)
         response = dict()
         if 'domain_name' in w:
-            print(w['domain_name'])
-            response['dominio'] = w['domain_name'][0] if type(w['domain_name']) is list else w['domain_name']
-            created =  w['creation_date'][0] if type(w['creation_date']) is list else w['creation_date']
-            response['criado_em_h'] = arrow.get(created).humanize(locale='pt')
-            response['criado_em'] = created.strftime('%d/%m/%Y')
-            response['registrado_para'] = w['registrar']
-            response['dadosEmpresa'] = False
+            if w['domain_name']:
+                response['dominio'] = w['domain_name'][0] if type(w['domain_name']) is list else w['domain_name']
+                created =  w['creation_date'][0] if type(w['creation_date']) is list else w['creation_date']
+                response['criado_em_h'] = arrow.get(created).humanize(locale='pt')
+                response['criado_em'] = created.strftime('%d/%m/%Y')
+                response['registrado_para'] = w['registrar']
+                response['dadosEmpresa'] = False
         else:
-            response['dominio'] = w['domain']
-            created = w['created'][0].split(' ')[0] if type(w['created']) is list else w['created'].split(' ')[0]
-            response['criado_em_h'] = arrow.get(parser.parse(created)).humanize(locale='pt')
-            response['criado_em'] = parser.parse(created).strftime('%d/%m/%Y')
-            response['registrado_para'] = w['owner']
-            response['documento_responsavel'] = w['ownerid']
-            documento = re.sub(r'[^\w]','',str(w['ownerid']))
-            company = self.getCompanyInfos(documento)
-            response['dadosEmpresa'] = company
+            if w['domain']:
+                response['dominio'] = w['domain']
+                created = w['created'][0].split(' ')[0] if type(w['created']) is list else w['created'].split(' ')[0]
+                response['criado_em_h'] = arrow.get(parser.parse(created)).humanize(locale='pt')
+                response['criado_em'] = parser.parse(created).strftime('%d/%m/%Y')
+                response['registrado_para'] = w['owner']
+                response['documento_responsavel'] = w['ownerid']
+                documento = re.sub(r'[^\w]','',str(w['ownerid']))
+                company = self.getCompanyInfos(documento)
+                response['dadosEmpresa'] = company
         return response
 
     def getCompanyInfos(self,document):
