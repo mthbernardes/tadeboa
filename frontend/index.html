@@ -1,0 +1,182 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <title>Ta de boa? Analisador de URL's</title>
+      <!-- Bootstrap Core CSS -->
+      <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      <!-- Custom Fonts -->
+      <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+      <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+      <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+      <!-- Theme CSS -->
+      <link href="css/grayscale.min.css" rel="stylesheet">
+      <script>
+         function Buscar(){
+           url = document.getElementById('url').value;
+           var div = document.getElementById("response");
+           location.hash = "#response";
+           div.innerHTML = "<h3>Estou processando seu pedido...</h3>";
+           $.getJSON('http://localhost:8080/?url='+btoa(url), function(data){
+             div.innerHTML = '';
+             var text = 'Essa URL response para o dominio '+data.dominio.dominio+', o registro dele foi realizado '+data.dominio.criado_em_h;
+             if(data.vulnerabilidade){
+                 div.innerHTML += '<font color="red"><h3>ATENÇÃO!<br> De acordo com nossas analises esse site pode estar tentando explorar alguma vulnerabilidade no seu navegador.</h3></font>';
+             }
+             if(data.seguranca.status == 'Safe'){
+               div.innerHTML += '<h3><font color="green">De acordo com o <a href="https://global.sitesafety.trendmicro.com/index.php" target="_blank">Globa SiteSafety</a> esta URL é segura.</font></h3>'
+             }
+             else if(data.seguranca.status == null){
+               div.innerHTML += '<h3><font color="yellow">Não foi possivel fazer a consulta no <a href="https://global.sitesafety.trendmicro.com/index.php" target="_blank">Globa SiteSafety</a> você pode tentar fazer a consulta manualmente.</font></h3>'
+             }
+             else{
+               div.innerHTML += '<h3><font color="red">ATENÇÃO!<br>De acordo com o <a href="https://global.sitesafety.trendmicro.com/index.php" target="_blank">Globa SiteSafety</a> esta URL não é segura.</font></h3>'
+             }
+             div.innerHTML += '<h3>'+text+'</h3>';
+             if (data.print){
+               div.innerHTML += '<h3>Clique no botão para ver um print da pagina.</h3><a href="'+ data.print + '" class="btn btn-default btn-lg" target="_blank"><i class="fa fa-picture-o fa-fw"></i> <span class="network-name">print</span></a>'
+             }
+          });
+         }
+      </script>
+   </head>
+   <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+      <!-- Navigation -->
+      <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+         <div class="container">
+            <div class="navbar-header">
+               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+               Menu <i class="fa fa-bars"></i>
+               </button>
+               <a class="navbar-brand page-scroll" href="#page-top">
+               <i class="fa fa-bug"></i> <span class="light">Ta</span> de boa?
+               </a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+               <ul class="nav navbar-nav">
+                  <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                  <li class="hidden">
+                     <a href="#page-top"></a>
+                  </li>
+                  <li>
+                     <a class="page-scroll" href="#about">Sobre</a>
+                  </li>
+                  <li>
+                     <a class="page-scroll" href="#download">Projeto</a>
+                  </li>
+                  <li>
+                     <a class="page-scroll" href="#contact">Contato</a>
+                  </li>
+               </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+         </div>
+         <!-- /.container -->
+      </nav>
+      <!-- Intro Header -->
+      <header class="intro">
+         <div class="intro-body">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-8 col-md-offset-2">
+                     <h1 class="brand-heading">Ta de boa?</h1>
+                     <p class="intro-text">Será que o link que recebeu no seu e-mail é malicioso?
+                     <div class="col-lg-12">
+                        <div class="input-group input-group-lg">
+                           <span class="input-group-btn">
+                           <button class="btn btn-default" type="button" onclick="Buscar()">Analisar!</button>
+                           </span>
+                           <input type="text" class="form-control" placeholder="Insira a URL" aria-describedby="sizing-addon1" id="url">
+                        </div>
+                        <!-- /input-group -->
+                     </div>
+                     <!-- /.col-lg-6 -->
+                  </div>
+               </div>
+            </div>
+         </div>
+      </header>
+      <section>
+         <div class="container content-section text-center" id="response">
+            <!-- Response Goes here-->
+            <table>
+               <tr>
+                  <td><img src='img/vader.png'/></td>
+                  <td>
+                     <h3> Use a caixa de texto ai em cima pra analisar sua URL.</h3>
+                  </td>
+               </tr>
+            </table>
+         </div>
+      </section>
+      <!-- About Section -->
+      <section id="about" class="container content-section text-center">
+         <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+               <h2>O que é isso?</h2>
+               <p>Sabe aqueles e-mails que você recebe prometendo uma assinatura gratuita de 1 ano no Netflix? Então meu amigo isso é o que chamamos de phishing, um e-mail falso que tem como objetivo roubar alguma informações suas. Nesse exemplo é facil perceber, que se trata de um phishing, pois ninguem da nada assim de graça muito menos o Netflix, porém em alguns casos, ataques de phishing são muito bem elaborados dificultando a identificação em uma simples analise, então como identificar um phishing?</p>
+               <p>É ai que o projeto Ta de Boa? entra, o objetivo dele é realizar a analise na URL que você recebeu nesses e-mails maliciosos, e te informar se essa URL é maliciosa ou não.</p>
+               <p>Ta de boa? consegue identificar, dominios registrados a pouco tempo, que é uma caracteristica comum de sites de phishing, tentativas de exploração de vulnerabilidades, realiza verificação em bases de URL's maliciosas, e analise de scripts javascripts carregados na página.</p>
+            </div>
+         </div>
+      </section>
+      <!-- Download Section -->
+      <section id="download" class="content-section text-center">
+         <div class="download-section">
+            <div class="container">
+               <div class="col-lg-8 col-lg-offset-2">
+                  <h2>Projeto Ta de Boa?</h2>
+                  <p>Este projeto é OpenSource e seu código pode ser encontrado no github.</p>
+                  <a href="https://github.com/mthbernardes" class="btn btn-default btn-lg" target="_blank">Github</a>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- Contact Section -->
+      <section id="contact" class="container content-section text-center">
+         <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+               <h2>Contato</h2>
+               <p>Caso queira tirar alguma duvida, fazer alguma sugestão, colaborar com o projeto ou patrocionalo, fique a vontade para me mandar um e-mail.</p>
+               <p><a href="mailto:gambler@tutanota.com">gambler@tutanota.com</a>
+               </p>
+               <ul class="list-inline banner-social-buttons">
+                  <li>
+                     <a href="https://facebook.com/mthbernardes" class="btn btn-default btn-lg" target="_blank"><i class="fa fa-facebook fa-fw"></i> <span class="network-name">Facebook</span></a>
+                  </li>
+                  <li>
+                     <a href="https://github.com/mthbernardes" class="btn btn-default btn-lg" target="_blank"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
+                  </li>
+                  <li>
+                     <a href="https://linkedin.com/in/mthbernardes" class="btn btn-default btn-lg" target="_blank"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">Likedin</span></a>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </section>
+      <!-- Map Section -->
+      <!-- Footer -->
+      <footer>
+         <div class="container text-center">
+            <p>Pronto acabou é só isso mesmo.</p>
+         </div>
+      </footer>
+      <!-- jQuery -->
+      <script src="vendor/jquery/jquery.js"></script>
+      <!-- Bootstrap Core JavaScript -->
+      <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+      <!-- Plugin JavaScript -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+      <!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
+      <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&sensor=false"></script>
+      <!-- Theme JavaScript -->
+      <script src="js/grayscale.min.js"></script>
+   </body>
+</html>

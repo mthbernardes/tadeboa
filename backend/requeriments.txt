@@ -1,0 +1,10 @@
+pycpfcnpj
+python-whois
+arrow
+hug
+hug_middleware_cors
+lxml
+requests
+selenium
+typing
+gunicorn
