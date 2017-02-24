@@ -36,5 +36,7 @@ open index.html
 #TO DO
 <pre>
 Integração com a API gratuita do Virus Total
+Verificar URL encurtadas
+Verificar arquivos javascripts carregados pela pagina
 Melhoria na interface Web (HELP ME)
 </pre>

@@ -23,7 +23,7 @@
            var div = document.getElementById("response");
            location.hash = "#response";
            div.innerHTML = "<h3>Estou processando seu pedido...</h3>";
-           $.getJSON('http://localhost:8080/?url='+btoa(url), function(data){
+           $.getJSON('https://tatranquilo-g4mbler.c9users.io/?url='+btoa(url), function(data){
              div.innerHTML = '';
              var text = 'Essa URL response para o dominio '+data.dominio.dominio+', o registro dele foi realizado '+data.dominio.criado_em_h;
              if(data.vulnerabilidade){
@@ -144,7 +144,7 @@
          <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
                <h2>Contato</h2>
-               <p>Caso queira tirar alguma duvida, fazer alguma sugestão, colaborar com o projeto ou patrocionalo, fique a vontade para me mandar um e-mail.</p>
+               <p>Caso queira tirar alguma duvida, fazer alguma sugestão, colaborar com o projeto ou patrociona-lo, fique a vontade para me mandar um e-mail.</p>
                <p><a href="mailto:gambler@tutanota.com">gambler@tutanota.com</a>
                </p>
                <ul class="list-inline banner-social-buttons">
@@ -155,7 +155,7 @@
                      <a href="https://github.com/mthbernardes" class="btn btn-default btn-lg" target="_blank"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
                   </li>
                   <li>
-                     <a href="https://linkedin.com/in/mthbernardes" class="btn btn-default btn-lg" target="_blank"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">Likedin</span></a>
+                     <a href="https://linkedin.com/in/mthbernardes" class="btn btn-default btn-lg" target="_blank"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">Linkedin</span></a>
                   </li>
                </ul>
             </div>
